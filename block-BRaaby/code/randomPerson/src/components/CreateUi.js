@@ -13,12 +13,19 @@ class CreateUi extends React.Component {
     fetch("https://randomuser.me/api/")
       .then((data) => data.json())
       .then((data) =>
-        this.setState({
+        this.setState((preState) => ({
           data: data.results[0],
           title: "My Name is",
           value: `${data.results[0].name.title} ${data.results[0].name.first} ${data.results[0].name.last}`,
-        })
+        }))
       );
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      data: null,
+      value: "",
+    });
   }
 
   render() {
@@ -97,7 +104,10 @@ class CreateUi extends React.Component {
               </div>
               <button
                 className="bg-black block text-white p-2"
-                onClick={() => this.componentDidMount()}
+                onClick={() => {
+                  this.componentWillUnmount();
+                  this.componentDidMount();
+                }}
               >
                 {this.state.data ? "Rander Date" : "loding..."}
               </button>
