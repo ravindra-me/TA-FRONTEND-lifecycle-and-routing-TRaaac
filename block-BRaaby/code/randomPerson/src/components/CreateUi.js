@@ -5,7 +5,9 @@ class CreateUi extends React.Component {
     super();
     this.state = {
       data: null,
+      title: "My Name Is",
       value: "",
+      img: "",
     };
   }
 
@@ -17,15 +19,18 @@ class CreateUi extends React.Component {
           data: data.results[0],
           title: "My Name is",
           value: `${data.results[0].name.title} ${data.results[0].name.first} ${data.results[0].name.last}`,
+          img: data.results[0].picture.medium,
         }))
       );
   }
 
   componentWillUnmount() {
-    this.setState({
+    this.setState((preState) => ({
       data: null,
-      value: "",
-    });
+      value: preState.value,
+      title: preState.title,
+      img: preState.img,
+    }));
   }
 
   render() {
@@ -41,18 +46,11 @@ class CreateUi extends React.Component {
           <div className="cart bg-white p-8 absolute -top-16">
             <div white="white">
               <div className="font-0  flex justify-center items-center">
-                <img
-                  src={
-                    this.state.data
-                      ? this.state.data.picture.medium
-                      : "https://randomuser.me/api/portraits/med/women/49.jpg"
-                  }
-                  alt=""
-                />
+                <img src={this.state.img} alt="" />
               </div>
             </div>
             <div>
-              <h6 className="text-center">My Name is</h6>
+              <h6 className="text-center">{this.state.title}</h6>
               <h3 className="text-center text-2xl mb-4	">
                 {this.state.value || "Ravindra Singh"}
               </h3>
